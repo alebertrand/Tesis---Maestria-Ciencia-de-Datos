@@ -491,7 +491,7 @@ def convert_floats_to_int(df):
     cols_to_convert = [col for col in float_cols if np.isclose(df[col].dropna() % 1, 0).all()]
     for col in cols_to_convert:
         df[col] = df[col].astype('Int64')
-        print(f"✅ Columna '{col}' convertida de float a int.")
+        print(f"Columna '{col}' convertida de float a int.")
     return df
 
 def revisar_y_fill_nulls_with_zero(df, columns):
@@ -564,9 +564,6 @@ df_custom_imputed_final = df_custom_imputed.copy()
 # %%
 # Como tengo variables con mucha cardinalidad, en vez de borrarlas hacemos un proceso de agruparlas en los valores mas frecuentes y si no imputarles la categoría OTROS.
 def reducir_cardinalidad(df, col, top_n=10, nueva_col=None):
-    """
-    Agrupa los valores menos frecuentes de una columna categórica en 'Otros'.
-    """
     if col not in df.columns:
         print(f" Columna '{col}' no encontrada, se omite.")
         return df
@@ -709,7 +706,7 @@ for name, df in dataframes.items():
     df = df.reset_index(drop=True)       
     df.index = indice_base              
     globals()[name] = df                 
-    print(f"✅ Índice corregido en {name}")
+    print(f"Índice corregido en {name}")
 
 
 # Refrescamos el diccionario en caso de haber sido reescrito por globals()
@@ -1309,7 +1306,7 @@ df_resultados, modelos_optuna = optimizar_y_evaluar_modelos(
 
 # %%
 # Mostrar resultados
-print("\n📊 Resultados finales :")
+print("\nResultados finales :")
 print(df_resultados)
 
 # %%
@@ -1952,7 +1949,7 @@ def mostrar_importancias_exportar_csv(top_df, modelos_full, titulo=""):
         ]
 
         if row_model.empty:
-            print(f"⚠️ No se encontró el modelo para {modelo} con SMOTE={smote}")
+            print(f"No se encontró el modelo para {modelo} con SMOTE={smote}")
             continue
 
         row_model = row_model.iloc[0]
@@ -1969,7 +1966,7 @@ def mostrar_importancias_exportar_csv(top_df, modelos_full, titulo=""):
                 "Importance": modelo_entrenado.feature_importances_
             }).sort_values(by="Importance", ascending=False)
             df_imp.to_csv(nombre_archivo, index=False)
-            print(f"✅ Guardado: {nombre_archivo}")
+            print(f"Guardado: {nombre_archivo}")
 
         elif hasattr(modelo_entrenado, "coef_"):
             coefs = modelo_entrenado.coef_[0]
@@ -1979,10 +1976,10 @@ def mostrar_importancias_exportar_csv(top_df, modelos_full, titulo=""):
                 "Abs_Coefficient": np.abs(coefs)
             }).sort_values(by="Abs_Coefficient", ascending=False)
             df_coef.to_csv(nombre_archivo, index=False)
-            print(f"✅ Guardado: {nombre_archivo}")
+            print(f"Guardado: {nombre_archivo}")
 
         else:
-            print(f"❌ {modelo} no soporta importancias directamente.")
+            print(f"{modelo} no soporta importancias directamente.")
 
 # %%
 mostrar_importancias_exportar_csv(top3, df_modelos_full, titulo="Top 3 por ROC")
